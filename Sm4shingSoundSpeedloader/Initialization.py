@@ -4,6 +4,7 @@ import Buttons
 from collections import defaultdict
 from os import getcwd
 import wx
+import os.path
 
 f = open('RAW_ID_LIST.txt', 'r')
 RAWline = f.readline()
@@ -11,6 +12,7 @@ RAWline = f.readline()
 MasterList = defaultdict(list)
 NameLookup = {}
 StageNameInfo = defaultdict(list)
+LevelNames = []
 #Save base working directory for default path location
 wd = getcwd()
 title = ''
@@ -23,6 +25,7 @@ while RAWline != '':
         RAWline = f.readline()
         #set title
         title = RAWline[:RAWline.find('\n')]
+        LevelNames.append(title)
         #negate and grab newline
         f.readline()
         RAWline = f.readline()
@@ -45,8 +48,15 @@ while RAWline != '':
 
     #Get next line in file
     RAWline = f.readline()
+f.close()
 
 
-#print(MasterList)
+newprofile = defaultdict(list)
 
-
+#load profile 'myfile.dat'
+if os.path.exists('myfile.dat') == True:
+    #
+    #
+    #
+    #
+    None
