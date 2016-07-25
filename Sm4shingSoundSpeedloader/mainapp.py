@@ -158,15 +158,16 @@ class panel_two ( wx.Panel ):
             self.parent.SetTitle("Sm4shing Sound Speedloader")
             self.parent.panelOne.Show()
             self.Hide()
-            #load StageNameInfo into profile
-            file = open('myfile.dat', 'w+')
+            #load StageNameInfo into profile at working directory (wd) path
+            file = open(wd + '\myfile.dat', 'w+')
             for lname in LevelNames:
                 file.write('$' + lname + '\n')
                 for tname in StageNameInfo[lname]:
-                    file.write(tname[0] + '\n')
-                    file.write(tname[1] + '\n')
+                    file.write(tname[0] + '~@~')
+                    file.write(tname[1] + '~~@')
                     file.write(tname[2] + '\n')
             file.close()
+
 
 
 #Wii U Smash Bros 4 Music Path
@@ -195,6 +196,7 @@ class panel_two ( wx.Panel ):
             style=wx.OPEN | wx.CHANGE_DIR
             )
 
+        #NUS3BANK file was chosen
         if dlg.ShowModal() == wx.ID_OK:
             trackpath = dlg.GetPath()
             customtrackname = dlg.GetFilename()
@@ -216,12 +218,12 @@ class panel_two ( wx.Panel ):
             
             for index, trackname in enumerate(StageNameInfo[level]):
                 if trackname[0] == track:
-                    #StageNameInfo[level][index] = (track, 'Y', customtrackname)
-                    StageNameInfo['Main Menu'][0] = (track, 'Y', customtrackname)
+                    StageNameInfo[level][index] = (track, 'Y', customtrackname)
+
 
             self.parent.panelOne.LoadPanel2Info(level)
 
-
+        #User canceled their selection
         else:
             dlg.Destroy()
        

@@ -17,6 +17,8 @@ LevelNames = []
 wd = getcwd()
 title = ''
 
+profileExist = os.path.exists('myfile.dat')
+
 while RAWline != '':
 
     #Checking against titles
@@ -39,8 +41,10 @@ while RAWline != '':
     #list of track names sorted by world
     MasterList[title].append(name)
 
-    #Create Info container for loading Panel2
-    StageNameInfo[title].append( (name, 'N', 'N/A') )
+    if not profileExist:
+        print("Profile creation in progress\n")
+        #Create Info container for loading Panel2
+        StageNameInfo[title].append( (name, 'N', 'N/A') )
 
     #dictionary with level names as keys for RAW names
     NameLookup[name] = RAWname
@@ -51,12 +55,30 @@ while RAWline != '':
 f.close()
 
 
-newprofile = defaultdict(list)
+
 
 #load profile 'myfile.dat'
-if os.path.exists('myfile.dat') == True:
-    #
-    #
-    #
-    #
-    None
+if profileExist == True:
+    f = open('myfile.dat', 'r')
+    RAWline = f.readline()
+    title = ''
+
+    while RAWline != '':
+        if RAWline[0] == '$':
+            title = RAWline[1:RAWline.find('\n')]
+            RAWline = f.readline()
+            print(title)
+            continue
+
+        index1 = RAWline.find('~@~')
+        index2 = RAWline.find('~~@')
+        track = RAWline[:index1]
+        isCustom = RAWline[index1+3:index2]
+        ctrack = RAWline[index2+3:-1]
+        print(' ' + track + ' ' + isCustom + ' ' + ctrack)
+        StageNameInfo[title].append( (track, isCustom, ctrack) )
+        RAWline = f.readline()
+        
+    f.close()
+    #print StageNameInfo
+    print("myfile.dat was found and loaded")
